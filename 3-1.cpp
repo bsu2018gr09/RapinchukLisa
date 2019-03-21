@@ -31,31 +31,35 @@ bool isSeparator(char* str,unsigned int i, char* Sep) {
 	return 0;
 }
 
-void task(char* str) {
+void task(char* str, int* counter) {
 	for (unsigned int i = 0; i < strlen(str); ++i) {
 		
 		if (isSeparator(str, i, Sep)) continue;
-		if (islower(str[i])) {
+		if (isupper(str[i])) {
 			while (!isSeparator(str, i , Sep)) {
 				cout << str[i];
 				++i;
 			}
+			(*counter)++;
 			cout << " ";
 		}
 		else {
 			while (!isSeparator(str, i, Sep)) ++i;
 		}
 	}
+	cout << '\n' << "number of words starting with a capital letter = " << *counter << '\n';
 }
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
 	SetConsoleOutputCP(CP_UTF8);
+	int counter=0;
 	char* str = nullptr;
 	cout << "Enter string \n";
 	str = inputStr(str);
-	task(str);
+	task(str, &counter);
+	
 	delete[] str;
 	str = nullptr;
 	system("pause");
