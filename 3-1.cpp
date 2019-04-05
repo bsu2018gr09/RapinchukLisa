@@ -35,7 +35,7 @@ void task(char* str, int* counter) {
 	for (unsigned int i = 0; i < strlen(str); ++i) {
 		
 		if (isSeparator(str, i, Sep)) continue;
-		if (isupper(str[i])) {
+		if (isupper(str[i])) {//не работает
 			while (!isSeparator(str, i , Sep)) {
 				cout << str[i];
 				++i;
