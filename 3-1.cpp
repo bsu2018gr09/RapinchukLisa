@@ -24,7 +24,7 @@ char* inputStr(char* str) {
 	return str;
 }
 
-bool isSeparator(char* str,unsigned int i, char* Sep) {
+bool isSeparator(char* str, unsigned int i, char* Sep) {
 	for (unsigned int j = 0; j < strlen(Sep); ++j) {
 		if (str[i] == Sep[j]) return 1;
 	}
@@ -33,10 +33,10 @@ bool isSeparator(char* str,unsigned int i, char* Sep) {
 
 void task(char* str, int* counter) {
 	for (unsigned int i = 0; i < strlen(str); ++i) {
-		
+
 		if (isSeparator(str, i, Sep)) continue;
-		if (isupper(str[i])) {//не работает
-			while (!isSeparator(str, i , Sep)) {
+		if (isupper((unsigned char)str[i])) {
+			while (!isSeparator(str, i, Sep)&&(i<strlen(str))) {
 				cout << str[i];
 				++i;
 			}
@@ -47,19 +47,20 @@ void task(char* str, int* counter) {
 			while (!isSeparator(str, i, Sep)) ++i;
 		}
 	}
-	cout << '\n' << "number of words starting with a capital letter = " << *counter << '\n';
+	cout << '\n' << "количество слов, начинающийся с прописной буквы = " << (*counter) << '\n';
 }
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	SetConsoleOutputCP(CP_UTF8);
-	int counter=0;
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	int counter = 0;
 	char* str = nullptr;
-	cout << "Enter string \n";
+	cout << "Введите строку \n";
 	str = inputStr(str);
 	task(str, &counter);
-	
+
 	delete[] str;
 	str = nullptr;
 	system("pause");
