@@ -14,8 +14,8 @@ int main() {
 	if (!fout) { cout << "   file C:\\1\\output.bmp. Can't create\n"; exit(1); }
 
 	char buf[30];// куда читать байты
-	unsigned char r1 = 0, g1 = 0, b1 = 0; //компоненты цвета
-	unsigned char r2 = 255, g2 = 255, b2 = 255;
+	unsigned char r1 = 100, g1 = 255, b1 = 100; //компоненты цвета
+	unsigned char r2 = 255, g2 = 5, b2 = 2;
 	color c;
 	unsigned int w, h; //надеемся. что тут 4 байта
 
@@ -31,7 +31,7 @@ int main() {
 	fin.read((char *)&buf, 28);   //чтение 28 байт заголовка bmp
 	fout.write((char *)&buf, 28);    //запись 28 байт заголовка bmp
 
-	int step = w;
+	int step = w;//этого не было в условии!!!! Step - это кол-во шагов для изменения Он может быть <w
 
 	float tr = (float)r1;
 	float tg = (float)r1;
