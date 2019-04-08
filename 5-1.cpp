@@ -14,7 +14,7 @@ int main() {
 	if (!fout) { cout << "   file C:\\1\\output.bmp. Can't create\n"; exit(1); }
 
 	char buf[30];// куда читать байты
-	unsigned char r1 = 100, g1 = 255, b1 = 100; //компоненты цвета
+	unsigned char r1 = 100, g1 = 0, b1 = 0; //компоненты цвета
 	unsigned char r2 = 255, g2 = 5, b2 = 2;
 	color c;
 	unsigned int w, h; //надеемся. что тут 4 байта
@@ -31,11 +31,11 @@ int main() {
 	fin.read((char *)&buf, 28);   //чтение 28 байт заголовка bmp
 	fout.write((char *)&buf, 28);    //запись 28 байт заголовка bmp
 
-	int step = w;//этого не было в условии!!!! Step - это кол-во шагов для изменения Он может быть <w
+	int step = 250;  
 
 	float tr = (float)r1;
-	float tg = (float)r1;
-	float tb = (float)r1;
+	float tg = (float)g1;
+	float tb = (float)b1;
 
 	float sr = (float)(r2 - r1) / step;
 	float sg = (float)(g2 - g1) / step;
@@ -47,12 +47,12 @@ int main() {
 		for (int j = 1; j <= w; j++) {
 			/*Если счётчик меньше шага заливки, наращиваем цвет и затем записываем. Если нет, то просто записываем цвет*/
 			if (stepCount < step) {
-				c.r = (unsigned char)tr;
-				c.g = (unsigned char)tg;
-				c.b = (unsigned char)tb;
 				tr += sr;
 				tg += sg;
 				tb += sb;
+				c.r = (unsigned char)tr;
+				c.g = (unsigned char)tg;
+				c.b = (unsigned char)tb;
 				stepCount++;
 			}
 			fout.write((char *)&c, 3);     //запись сразу всего цвета
