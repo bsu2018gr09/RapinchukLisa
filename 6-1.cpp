@@ -1,3 +1,4 @@
+// Класс вектор в n-мерном пространстве. n задается как глобальная константа.
 #include<iostream>
 
 using namespace std;
@@ -63,6 +64,10 @@ public:
 
 	Vector operator / (const double a)
 	{
+		if (!a) {
+			cout << "error!";
+			return 0;
+		}
 		Vector tmp;
 		for (int i = 0; i < n; ++i) {
 			tmp.v[i] = v[i] / a;
@@ -85,7 +90,7 @@ public:
 			stream >> a.v[i];
 		}
 		return stream;
-	}
+	};
 
 private:
 	double v[n];
@@ -115,6 +120,12 @@ int main()
 	for (int i = 0; i < n; i++) {
 		cout << pointer[i];
 	}
+	Vector sum{ 0 };
+	for (int i = 0; i < n; i++) {
+		sum = sum + pointer[i];
+	}
+	cout << "sum = "<< sum;
+
 	delete[] pointer;
 	pointer = nullptr;
 	cout << pointer << '\n';
