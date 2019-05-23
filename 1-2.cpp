@@ -1,12 +1,16 @@
+//Неотрицательные элементы (случайные числа) массива А(N), где N=100000 переставить в конец массива, сохраняя порядок следования. 
+//Отрицательные элементы расположить в порядке убывания. Дополнительный массив не использовать.
+
 #include <iostream>
+#include <clocale>
 
 using namespace std;
 
 int* newArray(int* pA, int *n) {
-	cout << "Enter n " << '\n';
+	cout << "Введите n " << '\n';
 	cin >> *n;
 	pA = new (nothrow) int[*n];
-	if (!pA) cout << "Could not allocate memory" << '\n';
+	if (!pA) cout << "Ошибка выделения памяти" << '\n';
 	return pA;
 }
 
@@ -16,11 +20,14 @@ int* deleteA(int* pA) {
 	return pA;
 }
 
-void inputA(int *pA, int n)
+void randomInitArray(int *pA, int n)
 {
+	int max, min;
+	cout << "Введите диапазон значений";
+	cin >> min >> max;
+	if (min > max) swap(min, max);
 	for (int* p = pA; p < pA + n; p++) {
-		cout << "Enter " << p - pA << " numder" << endl;
-		cin >> *p;
+		*p = min + rand()%(max-min+1);
 	}
 }
 
@@ -31,7 +38,7 @@ void printA(int *A, int n) {
 	cout << '\n';
 }
 
-void foo(int *A, int n) {
+void task(int *A, int n) {
 	for (int* p = A; p < A + n; ) {
 		if (*p < 0) {
 			for (int* pp = p; (pp > A); pp--) {
@@ -45,15 +52,14 @@ void foo(int *A, int n) {
 
 int main()
 {
+	setlocale(LC_ALL, "RUS");
 	int n;
 	int* pA = nullptr;
 	pA = newArray(pA, &n);
-	cout << pA << '\n';
-
-	inputA(pA, n);
+	randomInitArray(pA, n);
 	printA(pA, n);
 	cout << '\n';
-	foo(pA, n);
+	task(pA, n);
 	printA(pA, n);
 	deleteA(pA);
 	system("pause");
