@@ -61,7 +61,7 @@ void deleteMemory(void* arr) {
 }
 
 int* getMemoryInt(int size) {
-	int* arr = new int[size];
+	int* arr = new (nothrow) int[size];
 	if (!arr) exit(1);
 	return arr;
 }
