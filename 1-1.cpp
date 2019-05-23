@@ -13,25 +13,46 @@ void printPoint(int* X, int* Y, double* S, int N) {
 	cout << endl;
 }
 
-void task(int *X, int *Y, double *S, int size) {
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size - 1 - i; j++) {
-			if (*(S + j) > *(S + j + 1)) {
-				swap(*(S + j), *(S + j + 1));
-				swap(*(X + j), *(X + j + 1));
-				swap(*(Y + j), *(Y + j + 1));
+int getNextGap(int gap)
+{
+	gap = (int)gap / 1.25;
+	if (gap < 1)
+		return 1;
+	return gap;
+}
+
+void combSort(double* S, int* X, int*Y, int n) {
+	int gap = n;
+	bool swapped = true;
+
+	while (gap != 1 || swapped == true)
+	{
+		gap = getNextGap(gap);
+
+		swapped = false;
+
+		for (int i = 0; i < n - gap; i++)
+		{
+			if (S[i] > S[i + gap])
+			{
+				swap(S[i], S[i + gap]);
+				swap(X[i], X[i + gap]);
+				swap(Y[i], Y[i + gap]);
+				swapped = true;
 			}
 		}
 	}
 }
 
-void length(double* S, int* X, int* Y, int size, double a, double b, double c) {
-	while (size > 0) { *(S++) = (abs(*(X++)*a + *(Y++)*b + c) / sqrt((a*a) + (b*b))); size--; }
+void calculateLength(double* S, int* X, int* Y, int size, double a, double b, double c) {
+	while (size > 0) {
+		*(S++) = (abs(*(X++)*a + *(Y++)*b + c) / sqrt((a*a) + (b*b))); 
+		size--; }
 }
 
-void randomArray(int* arr, int size, int range) {
-	srand(time(0));
-	for (int i = 0; i < size; i++) *(arr + i) = rand() % range;
+
+void randomInitArray(int *A, int N, int max, int min) {
+	for (int i = 0; i < N; i++) *(A + i) = (rand() % max + min);
 }
 
 void deleteMemory(void* arr) {
@@ -51,11 +72,12 @@ double* getMemoryDouble(int size) {
 	return arr;
 }
 
-void numbers(int& range, int& size, double& a, double& b, double& c) {
+void writeNumbers(int& max, int& min, int& size, double& a, double& b, double& c) {
 	cout << "\nКоэффиценты квадратного уравнения: ";
 	cin >> a >> b >> c;
 	cout << "\nДиапазон значений: ";
-	cin >> range;
+	cin >> min >> max;
+	if (min > max) swap(min, max);
 	cout << "\nРазмер массива: ";
 	cin >> size;
 }
@@ -63,17 +85,17 @@ void numbers(int& range, int& size, double& a, double& b, double& c) {
 int main() {
 
 	setlocale(LC_ALL, "Russian");
-	int size, range;
+	int size, max, min;
 	double a, b, c;
-	numbers(range, size, a, b, c);
+	writeNumbers(max, min, size, a, b, c);
 	int* arrX = getMemoryInt(size);
 	int* arrY = getMemoryInt(size);
 	double* arrT = getMemoryDouble(size);
-	randomArray(arrX, size, range);
-	randomArray(arrY, size, range);
-	length(arrT, arrX, arrY, size, a, b, c);
+	randomInitArray(arrX, size, max, min);
+	randomInitArray(arrY, size, max, min);
+	calculateLength(arrT, arrX, arrY, size, a, b, c);
 	printPoint(arrX, arrY, arrT, size);
-	task(arrX, arrY, arrT, size);
+	combSort(arrT, arrX, arrY, size);
 	printPoint(arrX, arrY, arrT, size);
 	deleteMemory(arrT);
 	deleteMemory(arrX);
